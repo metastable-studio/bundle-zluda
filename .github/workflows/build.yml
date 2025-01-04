@@ -23,15 +23,20 @@ jobs:
     steps:
       - name: Prepare ZLUDA
         run: |
+          mkdir -p python/Lib/site-packages/torch/lib
           curl -L -o zluda.zip ${{ matrix.build.zluda_url }}
           unzip zluda.zip
           cp zluda/cublas.dll zluda/cublas64_11.dll
           cp zluda/cusparse.dll zluda/cusparse64_11.dll
           cp zluda/nvrtc.dll zluda/nvrtc64_112_0.dll
+          cp zluda/cublas.dll python/Lib/site-packages/torch/lib/cublas64_11.dll
+          cp zluda/cusparse.dll python/Lib/site-packages/torch/lib/cusparse64_11.dll
+          cp zluda/nvrtc.dll python/Lib/site-packages/torch/lib/nvrtc64_112_0.dll
+          cp -r zluda python/zluda
 
       - name: Build artifact
         run: |
-          cd zluda
+          cd python
           tar -cf - * | brotli -6 > /tmp/${{ env.artifact_name }}
 
       - name: Upload artifact
