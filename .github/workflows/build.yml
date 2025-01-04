@@ -11,27 +11,27 @@ jobs:
       fail-fast: false
       matrix:
         build:
-          - type: 'rocm57'
+          - arch: 'x64'
+            type: 'rocm5'
             zluda_url: 'https://github.com/lshqqytiger/ZLUDA/releases/download/rel.c0804ca624963aab420cb418412b1c7fbae3454b/ZLUDA-windows-rocm5-amd64.zip'
-          - type: 'rocm61'
+          - arch: 'x64'
+            type: 'rocm6'
             zluda_url: 'https://github.com/lshqqytiger/ZLUDA/releases/download/rel.c0804ca624963aab420cb418412b1c7fbae3454b/ZLUDA-windows-rocm6-amd64.zip'
     runs-on: ubuntu-latest
     env:
       artifact_name: win32-${{ matrix.build.arch }}-${{ matrix.build.type }}.tar.br
     steps:
-      - name: Prepare patch
+      - name: Prepare ZLUDA
         run: |
-          mkdir -p python/Lib/site-packages/torch/lib
           curl -L -o zluda.zip ${{ matrix.build.zluda_url }}
           unzip zluda.zip
-          cp zluda/cublas.dll python/Lib/site-packages/torch/lib/cublas64_11.dll
-          cp zluda/cusparse.dll python/Lib/site-packages/torch/lib/cusparse64_11.dll
-          cp zluda/nvrtc.dll python/Lib/site-packages/torch/lib/nvrtc64_112_0.dll
-          cp -r zluda python/zluda
+          cp zluda/cublas.dll zluda/cublas64_11.dll
+          cp zluda/cusparse.dll zluda/cusparse64_11.dll
+          cp zluda/nvrtc.dll zluda/nvrtc64_112_0.dll
 
       - name: Build artifact
         run: |
-          cd python
+          cd zluda
           tar -cf - * | brotli -6 > /tmp/${{ env.artifact_name }}
 
       - name: Upload artifact
