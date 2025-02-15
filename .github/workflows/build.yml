@@ -13,10 +13,10 @@ jobs:
         build:
           - arch: 'x64'
             type: 'rocm5'
-            zluda_url: 'https://github.com/lshqqytiger/ZLUDA/releases/download/rel.c0804ca624963aab420cb418412b1c7fbae3454b/ZLUDA-windows-rocm5-amd64.zip'
+            zluda_url: 'https://github.com/lshqqytiger/ZLUDA/releases/download/rel.32493c9dcb22012a0ba95ee740980231236e909c/ZLUDA-windows-rocm5-amd64.zip'
           - arch: 'x64'
             type: 'rocm6'
-            zluda_url: 'https://github.com/lshqqytiger/ZLUDA/releases/download/rel.c0804ca624963aab420cb418412b1c7fbae3454b/ZLUDA-windows-rocm6-amd64.zip'
+            zluda_url: 'https://github.com/lshqqytiger/ZLUDA/releases/download/rel.32493c9dcb22012a0ba95ee740980231236e909c/ZLUDA-windows-rocm6-amd64.zip'
     runs-on: ubuntu-latest
     env:
       artifact_name: win32-${{ matrix.build.arch }}-${{ matrix.build.type }}.tar.zst
